@@ -1,0 +1,31 @@
+{
+  "expo": {
+    "name": "Tea Collector",
+    "slug": "tea-collector",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "automatic",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.gimhan.teacollector"
+    },
+    "android": {
+      "package": "com.gimhan.teacollector",
+      "adaptiveIcon": {
+        "backgroundColor": "#1F4B3A",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      }
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "942e4871-659d-4e06-9d41-52384c21ea21"
+      }
+    }
+  }
+}

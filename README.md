@@ -1,60 +1,64 @@
-# 🍃 Tea Collector
+# Tea Collector
 
-Tea Collector is a mobile application designed to simplify and digitize the daily tea leaf collection process. The app helps tea collectors manage farmer information, record tea weights, calculate payments, and maintain daily and monthly collection records.
+A simple offline-first mobile app for a tea leaf collection center. Built with
+Expo (React Native) + SQLite so it works fully offline, with no login needed.
 
-## 🎯 Purpose
+## Features
 
-Traditional tea collection often involves manually recording farmer details, tea weights, prices, and payments. Tea Collector provides a simple digital solution that reduces manual work and helps maintain accurate records.
+- **Home** — today's total weight received from all farmers (tap it to see previous days), search, farmer list, add-farmer button
+- **Add Farmer** — name + phone, blocks duplicate names
+- **Farmer Detail** — this month's running total, add today's weight (price auto-applied), list of this month's daily records, "Mark Month as Paid"
+- **Daily History** — total weight/amount received on each previous day, across all farmers
+- **Price** — update the current price per kg (tap the price chip on Home). New entries use the new price; past entries keep the price they were recorded with.
 
-## ✨ Features
+All data is stored locally on the device with SQLite (`expo-sqlite`), so the
+app works with no internet connection at all — perfect for a collection
+center with poor signal.
 
-- 👨‍🌾 Add and manage farmers
-- ⚖️ Record tea leaf weight
-- 💰 Calculate tea collection amounts
-- 🏷️ Manage price per kilogram
-- 📊 View daily collection history
-- 📅 View monthly farmer records
-- 💵 Track monthly payment status
-- 🧮 Calculate total weight and payment amounts
-- 🕒 Store date and time for collection records
-- 📱 Simple and user-friendly interface
-- 🌙 Dark mode
-- 🌐 Language settings
-- 📶 Offline functionality
-- 💾 Local data storage using SQLite
+## Run it
 
-## 🛠️ Technologies Used
+```bash
+npm install
+npx expo start
+```
 
-- React Native
-- Expo
-- JavaScript
-- SQLite
-- Expo SQLite
-- React Navigation
+This prints a QR code in the terminal. Install the **Expo Go** app on your
+phone (Play Store / App Store), then scan the QR code — the app opens
+directly on your phone. Every time you edit a file and save, the app
+updates automatically.
 
-## 📱 Main Workflow
+This project is pinned to **Expo SDK 54**, which matches the current
+published version of Expo Go, so scanning the QR code should just work.
 
-Open App  
-→ Select/Add Farmer  
-→ Enter Tea Weight  
-→ Save Record  
-→ View Daily/Monthly History  
-→ Check Total & Price  
-→ Manage Payments
+## Project structure
 
-## 💾 Offline Support
+```
+App.js                     — loads the database, then renders the navigator
+src/
+  db/database.js           — SQLite schema + all queries (farmers, entries, price, monthly totals, daily totals)
+  navigation/AppNavigator.js
+  screens/
+    HomeScreen.js
+    AddFarmerScreen.js
+    FarmerDetailScreen.js
+    DailyHistoryScreen.js
+    PriceScreen.js
+  components/
+    PrimaryButton.js
+    EmptyState.js
+  theme/theme.js            — colors, spacing, typography used across the app
+```
 
-Tea Collector is designed to work without an internet connection. Collection records and farmer information are stored locally using SQLite, allowing users to continue working in areas with limited or no network connectivity.
+## Notes on the price rule
 
-## 🚀 Future Improvements
+Each entry stores its own `price_per_kg` at the moment it's saved
+(`src/db/database.js` → `addEntry`). Changing the price in the Price screen
+only changes `settings.price_per_kg`, which is read for the *next* entry —
+it never touches rows already saved in the `entries` table. That's what
+keeps past totals frozen even after the price changes.
 
-- Cloud database synchronization
-- Automatic backup and restore
-- Farmer payment notifications
-- Advanced reports and analytics
-- PDF report generation
-- Multi-device synchronization
+## Next steps you might want
 
-## 👨‍💻 Developer
-
-Developed as a university project to explore mobile application development, database management, and user-centered design.
+- An "Export month to PDF/share" button for handing farmers a printed slip
+- A password/PIN to open the app, since it holds farmer payment data
+- Backup/restore (e.g. export the SQLite file, or sync to a backend when online)
